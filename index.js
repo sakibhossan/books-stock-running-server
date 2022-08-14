@@ -35,6 +35,21 @@ async function run() {
       const result = await productCollection.insertOne(newProduct);
       res.send(result);
     });
+    // MY ITEM POST////
+    app.post('/newProduct', async (req, res)=>{
+      const allAddProduct = req.body;
+   
+      const result = await newProductCollection.insertOne(allAddProduct);
+      res.send(result);
+    })
+    app.get('/newProduct', async(req,res)=>{
+      const query = {};
+    const products = await newProductCollection.find(query).toArray()
+    res.send(products);
+    
+
+    })
+ 
     // Delete Product///
     app.delete('/product/:id', async (req, res) => {
       const id = req.params.id;

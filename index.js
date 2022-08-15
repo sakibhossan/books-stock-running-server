@@ -16,39 +16,34 @@ async function run() {
 
     await client.connect();
     const productCollection = client.db('booksStock').collection('product');
-    const newProductCollection = client.db('booksStock').collection('newProduct');
+   
     app.get('/product', async (req, res) => {
       const query = {};
       const cursor = productCollection.find(query);
       const products = await cursor.toArray();
       res.send(products);
     });
+  
     app.get('/product/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const product = await productCollection.findOne(query);
       res.send(product);
     });
+    
+ 
+
     // WORK TO POST FUNCTION//
     app.post('/product', async (req, res) => {
       const newProduct = req.body;
       const result = await productCollection.insertOne(newProduct);
       res.send(result);
     });
-    // MY ITEM POST////
-    app.post('/newProduct', async (req, res)=>{
-      const allAddProduct = req.body;
-   
-      const result = await newProductCollection.insertOne(allAddProduct);
-      res.send(result);
-    })
-    app.get('/newProduct', async(req,res)=>{
-      const query = {};
-    const products = await newProductCollection.find(query).toArray()
-    res.send(products);
     
+   
+  
+   
 
-    })
  
     // Delete Product///
     app.delete('/product/:id', async (req, res) => {
